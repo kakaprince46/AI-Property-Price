@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Price Estimation Result</h1>
+<div class="result-card">
+    <h2>Estimated Price: #{{ prediction }}</h2>
+
+    <div class="property-details">
+        <h3>Property Details:</h3>
+        <p><strong>Location:</strong> {{ location }}</p>
+        <p><strong>Size:</strong> {{ size_sqft }} sqft</p>
+        <p><strong>Bedrooms:</strong> {{ bedrooms }}</p>
+        <p><strong>Bathrooms:</strong> {{ bathrooms }}</p>
+        <p><strong>Amenities:</strong> {{ amenities }}</p>
+    </div>
+
+    <a href="/" class="btn">Make Another Estimation</a>
+</div>
+{% endblock %}

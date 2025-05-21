@@ -1,0 +1,201 @@
+location,size_sqft,bedrooms,bathrooms,amenities,price
+Port Harcourt,1720,4,4,"CCTV, Playground",3285457
+Calabar,5642,5,6,"Parking, Security, CCTV, Playground",9801908
+Enugu,7153,2,2,"Playground, Pool, Parking",16194519
+Awka,8004,1,2,"Security, Borehole, Garden",10853889
+Port Harcourt,2636,5,6,Parking,12003204
+Enugu,6614,5,5,"Pool, Parking, Security, Borehole",905159
+Ibadan,6189,5,6,Borehole,3686586
+Ibadan,2561,4,4,"Gym, Security, Pool",473588
+Awka,6932,3,3,"Pool, Garden, Gym, Parking",13075897
+Jos,3449,1,1,"Garden, Borehole, Pool",18942704
+Ibadan,8076,1,1,"Playground, Garden",11049883
+Ibadan,5114,5,6,"Security, Playground",17319800
+Awka,6204,4,5,"CCTV, Security, Borehole, Garden",5091297
+Benin,7655,3,3,"Playground, Garden, Borehole",1369173
+Uyo,2619,2,2,Playground,7599131
+Benin,4886,1,1,Garden,11577458
+Jos,5103,5,5,"Borehole, Pool, CCTV",9583411
+Calabar,1277,2,2,"Borehole, CCTV",1667158
+Ibadan,3592,1,1,Security,12914817
+Abuja,1144,2,2,"Pool, Security, Borehole",18357571
+Benin,5158,3,3,"Garden, Security, Gym, Pool",10119545
+Lagos,6900,4,5,Borehole,5533475
+Port Harcourt,7417,2,2,CCTV,18965294
+Benin,3744,1,1,"Pool, CCTV, Playground, Security",18295887
+Lagos,7972,4,5,"Pool, Security, CCTV, Parking",6907000
+Abuja,7718,1,1,"Gym, Pool, Parking, Borehole",18471405
+Abuja,5935,5,6,"Pool, Gym, CCTV, Borehole",15511318
+Port Harcourt,7497,5,5,"Borehole, Gym",2090173
+Port Harcourt,2380,2,2,"Borehole, Playground",19592040
+Awka,1235,2,2,"Gym, Security",9158722
+Benin,2276,1,1,"Gym, CCTV, Parking, Security",17094786
+Lagos,759,5,6,"Borehole, Parking, Garden",17420908
+Awka,4710,5,5,"Pool, Garden",19159843
+Lagos,6749,2,2,"Borehole, Pool, CCTV",5109721
+Uyo,5808,3,3,"Borehole, Pool, Playground",7095202
+Uyo,6275,2,2,"Garden, CCTV",2953006
+Lagos,2345,3,4,"Borehole, CCTV, Playground",16928129
+Lagos,5349,4,4,CCTV,5560480
+Abuja,6564,1,2,"CCTV, Gym, Borehole, Parking",17392177
+Port Harcourt,4536,2,2,"Parking, Gym, Security",4700690
+Ibadan,7891,2,2,"Playground, Parking",2086377
+Jos,3877,1,1,"Pool, Parking, Garden",2596825
+Ibadan,5327,4,4,"Garden, Parking, Gym",6082394
+Lagos,1074,5,5,"Garden, CCTV, Borehole",8867671
+Lagos,6944,5,5,"Garden, Playground, CCTV",3303679
+Lagos,4166,2,2,"Playground, Garden",11834782
+Abuja,4401,4,4,"Parking, Security, Playground, CCTV",17875896
+Port Harcourt,9538,1,1,CCTV,837432
+Jos,5550,3,3,"Security, Parking",19889401
+Awka,3007,4,5,"Borehole, Playground, Gym",12477061
+Ibadan,7007,4,5,Pool,6796264
+Ibadan,6394,1,1,"Pool, Playground",7024635
+Awka,1636,5,5,"Borehole, Pool",14215431
+Jos,1330,2,2,"Parking, Playground, CCTV",8676696
+Calabar,7103,2,2,"Parking, CCTV, Garden",18086821
+Benin,4281,5,6,Parking,5031274
+Uyo,7431,3,4,"CCTV, Playground",5176934
+Ibadan,2016,4,4,Garden,2687377
+Jos,4941,2,2,Garden,18588048
+Abuja,3433,4,4,"Pool, Borehole",1381926
+Awka,871,1,1,"Pool, Playground, CCTV, Garden",12053016
+Jos,9099,1,2,"Parking, Security",1547901
+Enugu,9968,3,3,Playground,3437066
+Ibadan,6139,1,1,"Parking, Security, Borehole",18041243
+Ibadan,7371,5,5,"Security, CCTV",18179160
+Benin,6134,1,2,Parking,14279448
+Enugu,7142,1,1,Garden,6207963
+Port Harcourt,1922,5,5,"Gym, CCTV",13302609
+Awka,3072,2,3,Borehole,10564625
+Abuja,9016,4,4,Parking,5186417
+Port Harcourt,4646,3,3,"CCTV, Playground, Gym, Security",19185999
+Jos,942,4,4,"Playground, Parking, Pool",6961470
+Jos,9938,2,2,"Pool, CCTV, Gym, Security",16397858
+Uyo,6277,4,4,"Parking, Security",15969953
+Jos,8988,5,5,"CCTV, Playground, Pool",12469752
+Ibadan,1743,4,5,"Parking, Gym, Pool",19469677
+Ibadan,674,2,2,"Playground, Gym",11960726
+Jos,4968,1,1,"Playground, Gym, Garden",12256263
+Jos,6488,4,4,Gym,2989211
+Ibadan,6211,3,4,"Gym, CCTV, Security",6687390
+Ibadan,9577,3,3,"Gym, Garden, Borehole, Security",3872817
+Port Harcourt,9882,3,3,Pool,2456863
+Jos,7013,3,4,Parking,1944783
+Abuja,9386,2,2,"Security, Playground",17397833
+Ibadan,656,5,5,"Borehole, Playground, Garden",11312132
+Ibadan,1875,3,3,"Playground, Garden",3171809
+Ibadan,4169,4,4,"Security, Parking, CCTV",15010642
+Ibadan,2613,2,2,"Borehole, Pool",14267428
+Benin,1181,3,3,Borehole,12879390
+Port Harcourt,6100,4,4,Pool,15954616
+Enugu,5653,5,5,Security,16109065
+Lagos,4806,1,1,"Pool, CCTV",13016333
+Port Harcourt,9118,3,4,Security,1497723
+Ibadan,8973,5,5,"Borehole, Pool, CCTV",4338033
+Benin,1816,3,3,"Borehole, Playground",5989609
+Uyo,1592,4,4,Borehole,12473564
+Uyo,4032,3,3,"Borehole, Pool, Security",12376744
+Benin,4335,2,2,"Pool, CCTV, Parking",2396559
+Calabar,8805,5,5,"Security, CCTV",19169065
+Abuja,1848,4,5,"Pool, Borehole, Garden",13332987
+Calabar,2229,5,6,"Security, Pool, Parking",6069674
+Benin,9632,3,3,"Pool, Security, CCTV, Borehole",2049258
+Awka,8720,5,5,"Security, Garden",3516895
+Awka,9385,5,5,Parking,19772978
+Benin,7765,4,4,Gym,4444899
+Ibadan,1103,5,5,Security,11031867
+Lagos,6579,4,4,"Gym, CCTV",6151618
+Lagos,4676,2,2,"Garden, Borehole, CCTV",637580
+Benin,8999,2,2,Playground,4495826
+Abuja,591,2,2,Pool,8936174
+Uyo,4248,5,5,Gym,8867679
+Jos,4087,1,1,"Security, Pool, CCTV, Playground",15474619
+Abuja,9739,5,5,"CCTV, Gym, Borehole",19370364
+Ibadan,8609,1,1,"Garden, Parking",5036647
+Abuja,2968,2,2,"Security, Pool",8308387
+Jos,5157,1,1,"Security, Parking, Gym, Garden",13314644
+Calabar,9612,4,4,"Security, Pool, Parking, CCTV",17752035
+Abuja,7748,2,2,"Parking, Playground, Garden, Pool",14205888
+Benin,5161,5,5,"Garden, Borehole",19121300
+Uyo,9983,3,3,"Parking, Playground, Garden",7460159
+Port Harcourt,5064,2,2,"Garden, Playground",7350302
+Jos,4962,1,1,"Pool, Security, Borehole",807353
+Awka,5768,2,3,"Security, Parking, Garden",7879364
+Benin,8514,3,3,"CCTV, Parking, Borehole, Gym",9294850
+Jos,7484,3,3,"Borehole, Gym, CCTV",16589810
+Port Harcourt,4134,3,3,"Security, Playground, Gym, Parking",11235385
+Ibadan,2159,5,5,Pool,9985611
+Calabar,4380,4,4,"Gym, Security, CCTV",8696139
+Enugu,6718,4,4,"Borehole, Playground, Pool",4067711
+Abuja,1882,1,1,"Gym, Pool",5951616
+Benin,799,2,2,Pool,11482177
+Abuja,9453,4,4,"Playground, CCTV",5268857
+Benin,2241,2,2,"Borehole, Parking",11439617
+Benin,6878,4,4,"Borehole, Security",7092084
+Benin,1066,3,3,Parking,10701041
+Enugu,965,5,5,"Security, CCTV, Pool",16786630
+Ibadan,5721,2,2,"Playground, Security, Pool, Gym",6008482
+Ibadan,3513,5,5,"Security, Borehole",11314995
+Abuja,2963,5,5,"Gym, Garden",15777342
+Port Harcourt,2244,4,4,Security,18958843
+Lagos,2934,3,3,Borehole,8172099
+Ibadan,6776,2,2,"CCTV, Security, Gym, Parking",13409801
+Ibadan,5302,4,4,CCTV,8296685
+Calabar,3628,2,2,"Parking, Security",14318574
+Jos,834,1,1,"Playground, Garden, Gym, Pool",2706301
+Enugu,5414,4,4,"Pool, CCTV",17926177
+Calabar,2007,3,3,Borehole,7326746
+Enugu,1226,4,4,"Pool, Playground, Gym, Security",11826814
+Enugu,7177,5,5,"Garden, Playground",17999257
+Calabar,1502,3,3,"Garden, Playground, Pool, Borehole",17195696
+Port Harcourt,1131,2,3,Playground,2980138
+Lagos,9435,4,4,CCTV,11398880
+Ibadan,4112,1,1,"Security, Playground, Garden, Pool",3241631
+Ibadan,9720,2,2,"Pool, CCTV, Garden",8817933
+Calabar,2500,5,6,"Garden, Parking",11531165
+Abuja,3043,3,3,"Pool, CCTV, Parking, Borehole",612460
+Calabar,4157,2,3,"Gym, Playground, Garden, Borehole",16429828
+Uyo,6302,2,2,"CCTV, Security",10060436
+Benin,8746,5,5,"Borehole, Garden, Pool, Playground",12862685
+Jos,2593,3,3,Playground,15755828
+Calabar,8744,1,1,"Gym, Security, Playground",10029719
+Enugu,5094,3,3,Security,17509777
+Jos,5588,5,5,"CCTV, Playground, Gym",14002024
+Ibadan,8729,5,5,"Parking, Pool",9039465
+Abuja,5400,4,4,"Pool, Playground, Borehole, Garden",9123419
+Jos,9443,5,5,"CCTV, Gym, Parking",5041830
+Ibadan,6503,3,3,Playground,11171932
+Benin,4180,4,5,Gym,13836060
+Port Harcourt,2330,5,5,Parking,12769674
+Enugu,7228,4,4,"Parking, CCTV",3781318
+Jos,7216,4,4,Parking,4890447
+Awka,4510,4,4,"Borehole, CCTV, Parking, Gym",7753146
+Uyo,7270,5,5,"Garden, Pool",10583960
+Ibadan,9608,4,4,Garden,9631655
+Awka,4249,1,1,Borehole,6667546
+Port Harcourt,2329,3,3,"Borehole, Playground, Parking, Garden",12866482
+Port Harcourt,9890,1,2,"CCTV, Parking",2109412
+Enugu,1041,3,3,"Gym, Pool, Security",7361360
+Jos,1813,1,1,"Gym, Pool, Security",3140523
+Ibadan,7782,4,4,"Playground, Parking, Pool",12826351
+Benin,8976,3,3,Security,1426902
+Enugu,8031,1,1,"Security, Parking, Pool, Playground",10748197
+Uyo,3102,4,5,Borehole,7310717
+Ibadan,5860,1,1,"Parking, Gym",1615085
+Benin,8942,3,3,"Playground, Security, Garden",5714683
+Abuja,6241,3,3,"Playground, Parking, CCTV, Security",9891343
+Lagos,5848,4,4,"Garden, CCTV",2514268
+Jos,8475,3,3,"Borehole, CCTV, Security",14039332
+Port Harcourt,598,4,5,"Gym, Parking",6872333
+Ibadan,1117,3,3,"Gym, Security, Borehole, Garden",8315595
+Abuja,9014,2,2,"Garden, Borehole, Pool",4793928
+Awka,8931,3,3,"CCTV, Borehole, Garden",13555889
+Enugu,2243,5,5,"Security, Borehole, Pool",1421839
+Benin,8763,4,4,"Borehole, Playground, Parking",10420653
+Abuja,9400,2,2,Playground,10632258
+Benin,8207,4,4,"CCTV, Garden, Parking, Gym",2942300
+Ibadan,6678,1,2,"Garden, Pool, CCTV, Security",10116794
+Uyo,3728,4,5,"Gym, CCTV, Garden, Playground",19615500
+Jos,5517,2,2,"Gym, Pool, CCTV",15123699
+Port Harcourt,6173,5,5,"Pool, Borehole",5180614

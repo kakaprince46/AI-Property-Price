@@ -1,0 +1,36 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+.Python
+env/
+
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# Firebase credentials
+firebase-key.json
+firebase-service-account.json
+*.key.json
+
+# VS Code
+.vscode/
+.vs/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Model files (if large)
+model/*.pkl
+model/*.joblib
