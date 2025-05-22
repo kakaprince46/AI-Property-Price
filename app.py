@@ -1,12 +1,12 @@
 import os
 import json
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify  # Removed render_template
 import joblib
 import pandas as pd
 import firebase_admin
 from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
-from flask_cors import CORS # Import CORS
+from flask_cors import CORS
 
 # Load environment variables
 load_dotenv()
@@ -71,59 +71,74 @@ except Exception as e:
 # === Routes ===
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return jsonify({"status": "ok", "message": "API is running"})
 
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Get and validate form data
+        # Get JSON data from frontend
+        if not request.is_json:
+            return jsonify({"error": "Request must be JSON"}), 400
+            
+        data = request.get_json()
+        
+        # Validate required fields
         required_fields = ['location', 'size_sqft', 'bedrooms', 'bathrooms']
-        data = {field: request.form.get(field, '').strip() for field in required_fields}
-        amenities = request.form.get('amenities', '').strip()
-
-        # Validate inputs
-        if not all(data.values()):
-            return jsonify({"error": "All fields are required"}), 400
+        if not all(field in data for field in required_fields):
+            return jsonify({"error": "Missing required fields"}), 400
 
         # Convert numerical fields
         try:
-            data['size_sqft'] = float(data['size_sqft'])
-            data['bedrooms'] = int(data['bedrooms'])
-            data['bathrooms'] = int(data['bathrooms'])
-        except ValueError as e:
+            size_sqft = float(data['size_sqft'])
+            bedrooms = int(data['bedrooms'])
+            bathrooms = int(data['bathrooms'])
+            amenities = data.get('amenities', '')
+        except (ValueError, TypeError) as e:
             return jsonify({"error": f"Invalid number format: {str(e)}"}), 400
 
         # Prepare input for prediction
         input_data = pd.DataFrame([{
             'location': data['location'],
-            'size_sqft': data['size_sqft'],
-            'bedrooms': data['bedrooms'],
-            'bathrooms': data['bathrooms'],
+            'size_sqft': size_sqft,
+            'bedrooms': bedrooms,
+            'bathrooms': bathrooms,
             'amenities': amenities
         }])
 
         # Make prediction
-        predicted_price = model.predict(input_data)[0]
+        predicted_price = float(model.predict(input_data)[0])
 
         # Save to Firebase
         db.collection('predictions').document().set({
-            **data,
+            'location': data['location'],
+            'size_sqft': size_sqft,
+            'bedrooms': bedrooms,
+            'bathrooms': bathrooms,
             'amenities': amenities,
-            'predicted_price': float(predicted_price),
+            'predicted_price': predicted_price,
             'timestamp': firestore.SERVER_TIMESTAMP
         })
 
-        return render_template('result.html',
-                               prediction=round(predicted_price, 2),
-                               **data,
-                               amenities=amenities)
+        return jsonify({
+            "status": "success",
+            "prediction": predicted_price,
+            "details": {
+                "location": data['location'],
+                "size_sqft": size_sqft,
+                "bedrooms": bedrooms,
+                "bathrooms": bathrooms,
+                "amenities": amenities
+            }
+        })
 
     except Exception as e:
         print(f"Prediction error: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
 
 # === Run App ===
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
-    
