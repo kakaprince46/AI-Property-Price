@@ -147,7 +147,7 @@
         const data = await response.json();
 
         resultDiv.innerHTML = `
-                    <h2>Estimated Price: $${data.prediction.toLocaleString()}</h2>
+                    <h2>Estimated Price: #${data.prediction.toLocaleString()}</h2>
                     <div class="property-details">
                         <h3>Property Details:</h3>
                         <p><strong>Location:</strong> ${document.getElementById("location").value}</p>
