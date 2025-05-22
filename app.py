@@ -20,17 +20,18 @@ print("Client Email:", os.environ.get("FIREBASE_CLIENT_EMAIL"))
 print("Private Key Present:", bool(os.environ.get("FIREBASE_PRIVATE_KEY")))
 print("="*40 + "\n")
 
-# Handle Firebase private key formatting
-private_key = os.environ.get("FIREBASE_PRIVATE_KEY", "")
-if private_key:
-    # Clean up the private key formatting
-    if private_key.startswith('\\n'):
-        private_key = private_key[2:]
-    if not private_key.startswith('-----BEGIN PRIVATE KEY-----'):
-        private_key = f"-----BEGIN PRIVATE KEY-----\n{private_key}"
-    if not private_key.endswith('-----END PRIVATE KEY-----'):
-        private_key = f"{private_key}\n-----END PRIVATE KEY-----"
-    private_key = private_key.replace('\\n', '\n')
+# Handle Firebase private key formatting robustly
+private_key = os.environ.get("FIREBASE_PRIVATE_KEY", "").strip()
+private_key = private_key.strip('"').strip("'")  # Remove any accidental surrounding quotes
+
+# Ensure proper PEM format
+if private_key and not private_key.startswith('-----BEGIN PRIVATE KEY-----'):
+    if '\\n' in private_key:
+        private_key = private_key.replace('\\n', '\n')
+    private_key = f"-----BEGIN PRIVATE KEY-----\n{private_key}\n-----END PRIVATE KEY-----"
+
+# Debug print the beginning of the key
+print("Private key starts with:", private_key[:50] + "...")
 
 firebase_config = {
     "type": "service_account",
@@ -127,4 +128,3 @@ def predict():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
-    
