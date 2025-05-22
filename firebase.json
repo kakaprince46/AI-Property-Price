@@ -1,10 +1,20 @@
 {
   "hosting": {
-    "public": "Flask",
+    "public": "static",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/predict",
+        "destination": "https://ai-property-price-estimator.onrender.com/predict"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   }
 }
