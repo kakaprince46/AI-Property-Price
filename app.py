@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import joblib
 import pandas as pd
 import firebase_admin
@@ -13,28 +13,62 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
-# Firebase config from environment variables
+# Debug Firebase configuration
+print("\n=== Checking Firebase Configuration ===")
+print("Project ID:", os.environ.get("FIREBASE_PROJECT_ID"))
+print("Client Email:", os.environ.get("FIREBASE_CLIENT_EMAIL"))
+print("Private Key Present:", bool(os.environ.get("FIREBASE_PRIVATE_KEY")))
+print("="*40 + "\n")
+
+# Handle Firebase private key formatting
+private_key = os.environ.get("FIREBASE_PRIVATE_KEY", "")
+if private_key:
+    # Clean up the private key formatting
+    if private_key.startswith('\\n'):
+        private_key = private_key[2:]
+    if not private_key.startswith('-----BEGIN PRIVATE KEY-----'):
+        private_key = f"-----BEGIN PRIVATE KEY-----\n{private_key}"
+    if not private_key.endswith('-----END PRIVATE KEY-----'):
+        private_key = f"{private_key}\n-----END PRIVATE KEY-----"
+    private_key = private_key.replace('\\n', '\n')
+
 firebase_config = {
-    "type": os.environ.get("FIREBASE_TYPE"),
+    "type": "service_account",
     "project_id": os.environ.get("FIREBASE_PROJECT_ID"),
     "private_key_id": os.environ.get("FIREBASE_PRIVATE_KEY_ID"),
-    "private_key": os.environ.get("FIREBASE_PRIVATE_KEY").replace('\\n', '\n'),
+    "private_key": private_key,
     "client_email": os.environ.get("FIREBASE_CLIENT_EMAIL"),
     "client_id": os.environ.get("FIREBASE_CLIENT_ID"),
-    "auth_uri": os.environ.get("FIREBASE_AUTH_URI"),
-    "token_uri": os.environ.get("FIREBASE_TOKEN_URI"),
-    "auth_provider_x509_cert_url": os.environ.get("FIREBASE_AUTH_PROVIDER_CERT_URL"),
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": os.environ.get("FIREBASE_CLIENT_CERT_URL")
 }
 
 # Initialize Firebase
-cred = credentials.Certificate(firebase_config)
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+try:
+    cred = credentials.Certificate(firebase_config)
+    firebase_admin.initialize_app(cred)
+    db = firestore.client()
+    print("Firebase initialized successfully!")
+except Exception as e:
+    print(f"Firebase initialization failed: {str(e)}")
+    raise
 
-# Load trained model using dynamic path
+# Verify and load model
 model_path = os.path.join(os.path.dirname(__file__), 'model/model.pkl')
-model = joblib.load(model_path)
+print("\n=== Checking Model ===")
+print("Model path:", model_path)
+
+if not os.path.exists(model_path):
+    raise FileNotFoundError(f"Model file not found at {model_path}")
+
+try:
+    model = joblib.load(model_path)
+    print("Model loaded successfully!")
+except Exception as e:
+    print(f"Model loading failed: {str(e)}")
+    raise
 
 @app.route('/')
 def index():
@@ -44,46 +78,53 @@ def index():
 def predict():
     try:
         # Get and validate form data
-        location = request.form.get('location', '').strip()
-        size_sqft = request.form.get('size_sqft', '').strip()
-        bedrooms = request.form.get('bedrooms', '').strip()
-        bathrooms = request.form.get('bathrooms', '').strip()
+        required_fields = ['location', 'size_sqft', 'bedrooms', 'bathrooms']
+        data = {field: request.form.get(field, '').strip() for field in required_fields}
         amenities = request.form.get('amenities', '').strip()
 
-        # Validate and convert inputs
-        if not location or not size_sqft or not bedrooms or not bathrooms:
-            return "Missing required form fields", 400
+        # Validate inputs
+        if not all(data.values()):
+            return jsonify({"error": "All fields are required"}), 400
 
-        data = {
-            'location': location,
-            'size_sqft': float(size_sqft),
-            'bedrooms': int(bedrooms),
-            'bathrooms': int(bathrooms),
+        # Convert numerical fields
+        try:
+            data['size_sqft'] = float(data['size_sqft'])
+            data['bedrooms'] = int(data['bedrooms'])
+            data['bathrooms'] = int(data['bathrooms'])
+        except ValueError as e:
+            return jsonify({"error": f"Invalid number format: {str(e)}"}), 400
+
+        # Prepare data for model
+        input_data = pd.DataFrame([{
+            'location': data['location'],
+            'size_sqft': data['size_sqft'],
+            'bedrooms': data['bedrooms'],
+            'bathrooms': data['bathrooms'],
             'amenities': amenities
-        }
-
-        # Create DataFrame with same structure as training data
-        input_data = pd.DataFrame([data])
+        }])
 
         # Make prediction
         predicted_price = model.predict(input_data)[0]
 
-        # Save to Firebase
+        # Save prediction to Firebase
         doc_ref = db.collection('predictions').document()
         doc_ref.set({
             **data,
+            'amenities': amenities,
             'predicted_price': float(predicted_price),
             'timestamp': firestore.SERVER_TIMESTAMP
         })
 
         return render_template('result.html',
-                               prediction=round(predicted_price, 2),
-                               **data)
+                            prediction=round(predicted_price, 2),
+                            **data,
+                            amenities=amenities)
 
-    except ValueError as ve:
-        return f"Invalid input: {ve}", 400
     except Exception as e:
-        return f"Error: {str(e)}", 500
+        print(f"Prediction error: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
+    
