@@ -7,56 +7,51 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+# Load environment variables
 load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# Debug Firebase configuration
-print("\n=== Checking Firebase Configuration ===")
-print("Project ID:", os.environ.get("FIREBASE_PROJECT_ID"))
-print("Client Email:", os.environ.get("FIREBASE_CLIENT_EMAIL"))
-print("Private Key Present:", bool(os.environ.get("FIREBASE_PRIVATE_KEY")))
-print("="*40 + "\n")
+# === Firebase Initialization ===
+def initialize_firebase():
+    print("\n=== Checking Firebase Configuration ===")
+    print("Project ID:", os.environ.get("FIREBASE_PROJECT_ID"))
+    print("Client Email:", os.environ.get("FIREBASE_CLIENT_EMAIL"))
 
-# Handle Firebase private key formatting robustly
-private_key = os.environ.get("FIREBASE_PRIVATE_KEY", "").strip()
-private_key = private_key.strip('"').strip("'")  # Remove any accidental surrounding quotes
+    # Get the private key and ensure proper formatting
+    private_key = os.environ.get("FIREBASE_PRIVATE_KEY", "").replace('\\n', '\n').strip('"').strip("'")
+    if not private_key.startswith('-----BEGIN PRIVATE KEY-----'):
+        private_key = '-----BEGIN PRIVATE KEY-----\n' + private_key
+    if not private_key.endswith('-----END PRIVATE KEY-----'):
+        private_key = private_key + '\n-----END PRIVATE KEY-----'
 
-# Ensure proper PEM format
-if private_key and not private_key.startswith('-----BEGIN PRIVATE KEY-----'):
-    if '\\n' in private_key:
-        private_key = private_key.replace('\\n', '\n')
-    private_key = f"-----BEGIN PRIVATE KEY-----\n{private_key}\n-----END PRIVATE KEY-----"
+    firebase_config = {
+        "type": os.environ.get("FIREBASE_TYPE", "service_account"),
+        "project_id": os.environ.get("FIREBASE_PROJECT_ID"),
+        "private_key_id": os.environ.get("FIREBASE_PRIVATE_KEY_ID"),
+        "private_key": private_key,
+        "client_email": os.environ.get("FIREBASE_CLIENT_EMAIL"),
+        "client_id": os.environ.get("FIREBASE_CLIENT_ID"),
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": os.environ.get("FIREBASE_CLIENT_CERT_URL")
+    }
 
-# Debug print the beginning of the key
-print("Private key starts with:", private_key[:50] + "...")
-
-firebase_config = {
-    "type": "service_account",
-    "project_id": os.environ.get("FIREBASE_PROJECT_ID"),
-    "private_key_id": os.environ.get("FIREBASE_PRIVATE_KEY_ID"),
-    "private_key": private_key,
-    "client_email": os.environ.get("FIREBASE_CLIENT_EMAIL"),
-    "client_id": os.environ.get("FIREBASE_CLIENT_ID"),
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": os.environ.get("FIREBASE_CLIENT_CERT_URL")
-}
+    try:
+        cred = credentials.Certificate(firebase_config)
+        firebase_admin.initialize_app(cred)
+        print("Firebase initialized successfully!\n")
+        return firestore.client()
+    except Exception as e:
+        print(f"Firebase initialization failed: {str(e)}")
+        raise
 
 # Initialize Firebase
-try:
-    cred = credentials.Certificate(firebase_config)
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
-    print("Firebase initialized successfully!")
-except Exception as e:
-    print(f"Firebase initialization failed: {str(e)}")
-    raise
+db = initialize_firebase()
 
-# Verify and load model
+# === Load Model ===
 model_path = os.path.join(os.path.dirname(__file__), 'model/model.pkl')
 print("\n=== Checking Model ===")
 print("Model path:", model_path)
@@ -66,11 +61,12 @@ if not os.path.exists(model_path):
 
 try:
     model = joblib.load(model_path)
-    print("Model loaded successfully!")
+    print("Model loaded successfully!\n")
 except Exception as e:
     print(f"Model loading failed: {str(e)}")
     raise
 
+# === Routes ===
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -95,7 +91,7 @@ def predict():
         except ValueError as e:
             return jsonify({"error": f"Invalid number format: {str(e)}"}), 400
 
-        # Prepare data for model
+        # Prepare input for prediction
         input_data = pd.DataFrame([{
             'location': data['location'],
             'size_sqft': data['size_sqft'],
@@ -107,9 +103,8 @@ def predict():
         # Make prediction
         predicted_price = model.predict(input_data)[0]
 
-        # Save prediction to Firebase
-        doc_ref = db.collection('predictions').document()
-        doc_ref.set({
+        # Save to Firebase
+        db.collection('predictions').document().set({
             **data,
             'amenities': amenities,
             'predicted_price': float(predicted_price),
@@ -117,14 +112,15 @@ def predict():
         })
 
         return render_template('result.html',
-                            prediction=round(predicted_price, 2),
-                            **data,
-                            amenities=amenities)
+                               prediction=round(predicted_price, 2),
+                               **data,
+                               amenities=amenities)
 
     except Exception as e:
         print(f"Prediction error: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+# === Run App ===
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
